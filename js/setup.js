@@ -9,7 +9,7 @@ var WIZARDS_QUANTITY = 4;
 var userDialog = document.querySelector('.setup');
 userDialog.classList.remove('hidden');
 
-var similarListElement = userDialog.querySelector('.setup-similar-list');
+var similarListElement = document.querySelector('.setup-similar-list');
 
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
     .content
@@ -18,22 +18,20 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
 
 var createWizards = function (quantity) {
   var wizards = [];
-
   for (var i = 0; i < quantity; i++) {
-    var wizard = {};
-
-    wizard.name = WIZARD_NAMES[Math.floor(Math.random() * WIZARD_NAMES.length)] + ' ' + WIZARD_SURNAMES[Math.floor(Math.random() * WIZARD_SURNAMES.length)];
-    wizard.coatColor = COAT_COLORS[Math.floor(Math.random() * COAT_COLORS.length)];
-    wizard.eyesColor = EYES_COLORS[Math.floor(Math.random() * EYES_COLORS.length)];
-
+    var wizard = {
+      name: WIZARD_NAMES[Math.floor(Math.random() * WIZARD_NAMES.length)] + ' ' + WIZARD_SURNAMES[Math.floor(Math.random() * WIZARD_SURNAMES.length)],
+      coatColor: COAT_COLORS[Math.floor(Math.random() * COAT_COLORS.length)],
+      eyesColor: EYES_COLORS[Math.floor(Math.random() * EYES_COLORS.length)]
+    };
     wizards[i] = wizard;
   }
 
   return wizards;
 };
 
-var renderWizard = function (wizard) {
-  var wizardElement = similarWizardTemplate.cloneNode(true);
+var renderWizard = function (wizard, template) {
+  var wizardElement = template.cloneNode(true);
 
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
@@ -42,12 +40,17 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-var fragment = document.createDocumentFragment();
+var addWizards = function (wizards, targetBlock, template) {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < wizards.length; i++) {
+    fragment.appendChild(renderWizard(wizards[i], template));
+  }
+
+  targetBlock.appendChild(fragment);
+};
+
 var wizards = createWizards(WIZARDS_QUANTITY);
+addWizards(wizards, similarListElement, similarWizardTemplate);
 
-for (var i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
-}
-similarListElement.appendChild(fragment);
-
-userDialog.querySelector('.setup-similar').classList.remove('hidden');
+document.querySelector('.setup-similar').classList.remove('hidden');
