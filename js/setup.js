@@ -6,9 +6,13 @@ var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var WIZARDS_QUANTITY = 4;
 
-var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
-
+/**
+  * Создает тестовый массив волшебников определенной длины,
+  * параметры каждого волшебника выбираются случайным образом из набора тестовых данных
+  *
+  * @param {number} quantity - Количество волшебников (элементов массива)
+  * @return {Object[]} Массив волшебников
+  */
 var createWizards = function (quantity) {
   var wizards = [];
   for (var i = 0; i < quantity; i++) {
@@ -23,6 +27,13 @@ var createWizards = function (quantity) {
   return wizards;
 };
 
+/**
+  * Создает DOM-элемент для волшебника по шаблону
+  *
+  * @param {Object} wizard - Объект волшебника
+  * @param {Object} template - DOM-элемент шаблона разметки
+  * @return {Object} DOM-элемент волшебника
+  */
 var renderWizard = function (wizard, template) {
   var wizardElement = template.cloneNode(true);
 
@@ -33,6 +44,13 @@ var renderWizard = function (wizard, template) {
   return wizardElement;
 };
 
+/**
+  * Возвращает DOM-фрагмент, наполненный DOM-элементами всех волшебников
+  *
+  * @param {Object[]} wizards - Массив объектов волшебников
+  * @param {Object} template - DOM-элемент шаблона разметки
+  * @return {Object} DOM-фрагмент
+  */
 var createWizardsFragment = function (wizards, template) {
   var fragment = document.createDocumentFragment();
 
@@ -43,13 +61,16 @@ var createWizardsFragment = function (wizards, template) {
   return fragment;
 };
 
+var wizards = createWizards(WIZARDS_QUANTITY);
+
+var userDialog = document.querySelector('.setup');
+userDialog.classList.remove('hidden');
 
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
     .content
     .querySelector('.setup-similar-item');
 
-var wizards = createWizards(WIZARDS_QUANTITY);
 similarListElement.appendChild(createWizardsFragment(wizards, similarWizardTemplate));
 
 document.querySelector('.setup-similar').classList.remove('hidden');
