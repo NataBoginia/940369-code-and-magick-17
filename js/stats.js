@@ -16,6 +16,14 @@ var BAR_GAP = 50;
 var cloudGapWidth = CLOUD_WIDTH / 10;
 var cloudGapHeight = CLOUD_HEIGHT / 10;
 
+/**
+  * Отрисовывает облако определенной формы по начальным координатам и заливает цветом
+  *
+  * @param {Object} ctx - Контекст рендеринга для canvas
+  * @param {number} x - Начальная x-координата облака
+  * @param {number} y - Начальная y-координата облака
+  * @param {string} color - Цвет заливки облака
+  */
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
 
@@ -32,6 +40,12 @@ var renderCloud = function (ctx, x, y, color) {
   ctx.fill();
 };
 
+/**
+  * Возвращает максимальный элемент из входящего массива
+  *
+  * @param {number[]} arr - Массив чисел
+  * @return {number} Максимальный элемент массива
+  */
 var getMaxElement = function (arr) {
   var maxElement = arr[0];
 
@@ -44,6 +58,13 @@ var getMaxElement = function (arr) {
   return maxElement;
 };
 
+/**
+  * Отрисовывает статистику игроков на попапе-облаке в виде вертикальной гистограммы
+  *
+  * @param {Object} ctx - Контекст рендеринга для canvas
+  * @param {string[]} names - Массив имен игроков
+  * @param {number[]} times -  Массив результатов игроков, содержит время прохождения уровня в мс
+  */
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X + SHADOW_GAP, CLOUD_Y + SHADOW_GAP, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
